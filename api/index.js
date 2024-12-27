@@ -1,6 +1,9 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import userRoutes from './routes/user.route.js';
+
+import authRouter from './routes/auth.route.js';
 
 dotenv.config(); // Load environment variables
 
@@ -24,11 +27,12 @@ mongoose.connect(process.env.MONGO_URI)
 
 const app = express();
 
-// Optional: Add middleware for handling JSON payloads
 app.use(express.json());
 
-// Start the server
-const PORT = process.env.PORT || 3000; // Allow dynamic port assignment if needed
+const PORT = process.env.PORT || 3000; 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+app.use('/api/user',userRoutes);
+app.use('/api/auth',authRouter);
